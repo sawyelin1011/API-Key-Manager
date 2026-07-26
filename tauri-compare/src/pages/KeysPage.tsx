@@ -20,18 +20,18 @@ interface Props {
 const PAGE_SIZES = [25, 50, 100, 200];
 
 const STATUS_CHIPS = [
-  { val: null, label: '全部', icon: Filter },
-  { val: 'valid', label: '有效', icon: CheckCircle },
-  { val: 'invalid', label: '无效', icon: XCircle },
-  { val: 'error', label: '错误', icon: HelpCircle },
-  { val: 'unknown', label: '未知', icon: HelpCircle },
+  { val: null, label: 'All', icon: Filter },
+  { val: 'valid', label: 'Valid', icon: CheckCircle },
+  { val: 'invalid', label: 'Invalid', icon: XCircle },
+  { val: 'error', label: 'Error', icon: HelpCircle },
+  { val: 'unknown', label: 'Unknown', icon: HelpCircle },
 ];
 
 const STATUS_MAP: Record<string, { label: string; color: string }> = {
-  valid: { label: '有效', color: 'success' },
-  invalid: { label: '无效', color: 'error' },
-  checking: { label: '检测中', color: 'warning' },
-  error: { label: '错误', color: 'error' },
+  valid: { label: 'Valid', color: 'success' },
+  invalid: { label: 'Invalid', color: 'error' },
+  checking: { label: 'Checking', color: 'warning' },
+  error: { label: 'Error', color: 'error' },
 };
 
 const spring = { type: 'spring' as const, damping: 20, stiffness: 400 };
@@ -216,7 +216,7 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
       setCopiedKey(keyMasked);
       setTimeout(() => setCopiedKey(null), 1500);
     } catch (e: any) {
-      addToast('error', '复制失败', e.message);
+      addToast('error', 'Copy failed', e.message);
     }
   };
 
@@ -225,13 +225,13 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
     try {
       const result = await api.checkKey(key);
       if (result.status === 'valid') {
-        addToast('success', '密钥有效', result.latency_ms ? `延迟 ${result.latency_ms}ms` : undefined);
+        addToast('success', 'Key valid', result.latency_ms ? `Latency ${result.latency_ms}ms` : undefined);
       } else {
-        addToast('error', '密钥无效', result.error || `状态: ${result.status}`);
+        addToast('error', 'Key invalid', result.error || `Status: ${result.status}`);
       }
       loadKeys();
     } catch (e: any) {
-      addToast('error', '检测失败', e.message);
+      addToast('error', 'Check failed', e.message);
     } finally {
       setCheckingKey(null);
     }
@@ -241,10 +241,10 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
     setConfirmDelete(null);
     try {
       await api.deleteKey(key);
-      addToast('success', '已删除密钥');
+      addToast('success', 'Key deleted');
       loadKeys();
     } catch (e: any) {
-      addToast('error', '删除失败', e.message);
+      addToast('error', 'Delete failed', e.message);
     }
   };
 
@@ -252,10 +252,10 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
     setConfirmClearAll(false);
     try {
       await api.clearKeys();
-      addToast('success', '已清空所有密钥');
+      addToast('success', 'All keys cleared');
       loadKeys();
     } catch (e: any) {
-      addToast('error', '清空失败', e.message);
+      addToast('error', 'Clear failed', e.message);
     }
   };
 
@@ -266,16 +266,16 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
     try {
       const res = await api.importSingleKey(key);
       if (res.new > 0) {
-        addToast('success', '密钥已添加');
+        addToast('success', 'Key added');
       } else if (res.duplicates > 0) {
-        addToast('error', '密钥已存在');
+        addToast('error', 'Key already exists');
       } else if (res.errors.length > 0) {
-        addToast('error', '添加失败', res.errors[0]);
+        addToast('error', 'Add failed', res.errors[0]);
       }
       setSingleKeyInput('');
       loadKeys();
     } catch (e: any) {
-      addToast('error', '添加失败', e.message);
+      addToast('error', 'Add failed', e.message);
     } finally {
       setAddingSingle(false);
     }
@@ -283,7 +283,7 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
 
   const getStatusStyle = (status: string) => {
     const s = STATUS_MAP[status];
-    if (!s) return { bg: c.surfaceLow, fg: c.textTertiary, label: '未知' };
+    if (!s) return { bg: c.surfaceLow, fg: c.textTertiary, label: 'Unknown' };
     const colorVal = (c as Record<string, string>)[s.color] || c.textTertiary;
     return { bg: `${colorVal}1F`, fg: colorVal, label: s.label };
   };
@@ -306,8 +306,8 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 700, color: c.textPrimary, margin: 0, letterSpacing: -0.5 }}>密钥管理</h1>
-            <p style={{ fontSize: 13, color: c.textTertiary, margin: '4px 0 0' }}>查看、搜索、验证密钥</p>
+            <h1 style={{ fontSize: 22, fontWeight: 700, color: c.textPrimary, margin: 0, letterSpacing: -0.5 }}>Key Management</h1>
+            <p style={{ fontSize: 13, color: c.textTertiary, margin: '4px 0 0' }}>View, search, and validate keys</p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             {/* Single key input */}
@@ -315,7 +315,7 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
               value={singleKeyInput}
               onChange={e => setSingleKeyInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && addSingleKey()}
-              placeholder="输入密钥快速添加..."
+              placeholder="Enter key to quickly add..."
               disabled={addingSingle}
               style={{
                 width: 220, padding: '6px 12px', borderRadius: 8,
@@ -343,7 +343,7 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
                 }}
               >
                 <Plus size={14} />
-                添加
+                Add
               </motion.div>
             </HoverPress>
 
@@ -354,7 +354,7 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
                   whileTap={{ scale: 0.88 }}
                   transition={spring}
                   onClick={() => setConfirmClearAll(true)}
-                  title="清空所有密钥"
+                  title="Clear all keys"
                   style={{
                     padding: '6px 12px', borderRadius: 8, cursor: 'pointer',
                     border: `1px solid ${c.error}33`,
@@ -365,7 +365,7 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
                   }}
                 >
                   <Trash2 size={14} />
-                  清空
+                  Clear
                 </motion.div>
               </HoverPress>
             )}
@@ -376,7 +376,7 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
                 whileTap={{ scale: 0.88 }}
                 transition={spring}
                 onClick={handleRefresh}
-                title="刷新"
+                title="Refresh"
                 style={{
                   width: 34, height: 34, borderRadius: 8, cursor: 'pointer',
                   border: `1px solid ${c.borderSubtle}`, background: 'transparent',
@@ -437,7 +437,7 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
           <input
             value={search}
             onChange={e => onSearchChange(e.target.value)}
-            placeholder="搜索密钥、服务商..."
+            placeholder="Search keys, providers..."
             style={{
               width: '100%', padding: '10px 34px 10px 38px', borderRadius: 10,
               border: `1px solid ${c.borderSubtle}`, background: c.surfaceLow,
@@ -498,7 +498,7 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
           /* Error */
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
             <CloudOff size={48} color={c.warning} />
-            <div style={{ fontSize: 16, fontWeight: 600, color: c.textPrimary }}>加载失败</div>
+            <div style={{ fontSize: 16, fontWeight: 600, color: c.textPrimary }}>Failed to load</div>
             <div style={{ fontSize: 12, color: c.textTertiary }}>{error}</div>
             <HoverPress>
               <motion.button
@@ -510,7 +510,7 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
                   background: c.primary, color: c.onPrimary,
                   fontSize: 13, fontWeight: 600, cursor: 'pointer',
                 }}
-              >重试</motion.button>
+              >Retry</motion.button>
             </HoverPress>
           </div>
         ) : filtered.length === 0 ? (
@@ -522,8 +522,8 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
             }}>
               <KeyRound size={36} color={c.textTertiary} />
             </div>
-            <div style={{ fontSize: 16, fontWeight: 600, color: c.textSecondary }}>暂无密钥</div>
-            <div style={{ fontSize: 13, color: c.textTertiary }}>从 JSON 文件导入密钥开始使用</div>
+            <div style={{ fontSize: 16, fontWeight: 600, color: c.textSecondary }}>No Keys</div>
+            <div style={{ fontSize: 13, color: c.textTertiary }}>Import keys from a JSON file to get started</div>
             <HoverPress>
               <motion.button
                 whileTap={{ scale: 0.97 }}
@@ -537,7 +537,7 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
                 }}
               >
                 <Upload size={18} />
-                导入密钥
+                Import Keys
               </motion.button>
             </HoverPress>
           </div>
@@ -550,13 +550,13 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
               display: 'flex', alignItems: 'center',
               borderBottom: `1px solid ${c.borderSubtle}`,
             }}>
-              <div style={{ flex: 3, paddingLeft: 8, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5 }}>密钥</div>
-              <div style={{ flex: 2, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5 }}>服务商</div>
-              <div style={{ flex: 1, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5 }}>状态</div>
-              <div style={{ flex: 1, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5, textAlign: 'right' }}>延迟</div>
-              <div style={{ flex: 1, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5 }}>模型</div>
-              <div style={{ flex: 1, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5 }}>余额</div>
-              <div style={{ flex: 1, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5 }}>操作</div>
+              <div style={{ flex: 3, paddingLeft: 8, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5 }}>Key</div>
+              <div style={{ flex: 2, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5 }}>Provider</div>
+              <div style={{ flex: 1, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5 }}>Status</div>
+              <div style={{ flex: 1, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5, textAlign: 'right' }}>Latency</div>
+              <div style={{ flex: 1, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5 }}>Models</div>
+              <div style={{ flex: 1, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5 }}>Balance</div>
+              <div style={{ flex: 1, fontSize: 11, fontWeight: 600, color: c.textTertiary, letterSpacing: 0.5 }}>Actions</div>
             </div>
 
             {/* Rows */}
@@ -590,7 +590,7 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
                 borderTop: `1px solid ${c.borderSubtle}`,
                 display: 'flex', alignItems: 'center', gap: 8,
               }}>
-                <span style={{ fontSize: 12, color: c.textTertiary }}>共 {total} 个密钥</span>
+                <span style={{ fontSize: 12, color: c.textTertiary }}>{total} keys total</span>
                 <div style={{ width: 16 }} />
                 {PAGE_SIZES.map(size => (
                   <motion.div
@@ -633,9 +633,9 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
         {confirmDelete !== null && (
           <ConfirmDialog
             colors={c}
-            title="删除密钥"
-            desc="确定要删除这个密钥吗？此操作不可恢复。"
-            confirmLabel="删除"
+            title="Delete Key"
+            desc="Are you sure you want to delete this key? This action cannot be undone."
+            confirmLabel="Delete"
             destructive
             onConfirm={() => doDeleteKey(confirmDelete)}
             onCancel={() => setConfirmDelete(null)}
@@ -648,9 +648,9 @@ export function KeysPage({ colors: c, visible, providerFilter, onImportSuccess }
         {confirmClearAll && (
           <ConfirmDialog
             colors={c}
-            title="清空所有密钥"
-            desc="确定要清空所有密钥吗？此操作不可恢复。"
-            confirmLabel="清空"
+            title="Clear All Keys"
+            desc="Are you sure you want to clear all keys? This action cannot be undone."
+            confirmLabel="Clear"
             destructive
             onConfirm={doClearAll}
             onCancel={() => setConfirmClearAll(false)}
@@ -724,7 +724,7 @@ function KeyRow({ colors: c, info, providerName, index, statusStyle, isCopied, i
       </div>
       {/* Models */}
       <div style={{ flex: 1, fontSize: 13, color: c.textSecondary }}>
-        {modelCount != null ? `${modelCount} 个` : '-'}
+        {modelCount != null ? `${modelCount}` : '-'
       </div>
       {/* Balance with currency */}
       <div style={{ flex: 1, fontSize: 13, color: c.textPrimary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -743,7 +743,7 @@ function KeyRow({ colors: c, info, providerName, index, statusStyle, isCopied, i
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
             transition: 'all 150ms ease',
           }}
-          title="复制完整密钥"
+          title="Copy full key"
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -769,7 +769,7 @@ function KeyRow({ colors: c, info, providerName, index, statusStyle, isCopied, i
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             transition: 'all 150ms ease',
           }}
-          title="检测"
+          title="Check"
         >
           <motion.div
             animate={isChecking ? { rotate: 360 } : { rotate: 0 }}
@@ -789,7 +789,7 @@ function KeyRow({ colors: c, info, providerName, index, statusStyle, isCopied, i
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             transition: 'all 150ms ease',
           }}
-          title="删除"
+          title="Delete"
         >
           <Trash2 size={16} />
         </motion.button>
@@ -873,7 +873,7 @@ function ProviderDropdown({ colors: c, providers, value, onChange }: {
           }}
         >
           {selected && <Cloud size={14} color={c.primary} />}
-          {selected?.display_name || '所有服务商'}
+          {selected?.display_name || 'All Providers'}
           <motion.div
             animate={{ rotate: open ? 180 : 0 }}
             transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -901,7 +901,7 @@ function ProviderDropdown({ colors: c, providers, value, onChange }: {
             {/* "All providers" option */}
             <DropdownItem
               colors={c}
-              label="所有服务商"
+              label="All Providers"
               selected={value === null}
               index={0}
               onClick={() => { onChange(null); setOpen(false); }}

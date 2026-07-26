@@ -1,0 +1,109 @@
+name: Build Tauri Desktop App (Windows)
+
+on:
+  push:
+    tags:
+      - 'v*'
+    paths:
+      - 'tauri-compare/**'
+  workflow_dispatch:
+    inputs:
+      upload_artifact:
+        description: 'Upload build artifacts'
+        type: boolean
+        default: true
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+  NODE_VERSION: '20'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: tauri-compare
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: tauri-compare/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: tauri-compare/src-tauri
+          cache-directories: |
+            tauri-compare/src-tauri/target
+
+      - name: Install system dependencies (WebView2, VC++ Build Tools)
+        run: |
+          # Windows-latest already has WebView2 and MSVC build tools pre-installed
+          rustc --version
+          cargo --version
+          node --version
+          npm --version
+
+      - name: Build Tauri desktop app
+        run: npx tauri build --verbose
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+
+      - name: List build artifacts
+        shell: pwsh
+        run: |
+          Get-ChildItem -Path src-tauri/target/release/bundle/ -Recurse -File | ForEach-Object { $_.FullName }
+
+      - name: Upload MSI installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: KeyHub-Tauri-Windows-MSI
+          path: tauri-compare/src-tauri/target/release/bundle/msi/*.msi
+          if-no-files-found: warn
+
+      - name: Upload NSIS installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: KeyHub-Tauri-Windows-NSIS
+          path: tauri-compare/src-tauri/target/release/bundle/nsis/*.exe
+          if-no-files-found: warn
+
+      - name: Upload debug symbols (PDB)
+        uses: actions/upload-artifact@v4
+        with:
+          name: KeyHub-Tauri-Windows-PDB
+          path: tauri-compare/src-tauri/target/release/*.pdb
+          if-no-files-found: warn
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: KeyHub ${{ github.ref_name }}
+          draft: true
+          prerelease: false
+          files: |
+            tauri-compare/src-tauri/target/release/bundle/msi/*.msi
+            tauri-compare/src-tauri/target/release/bundle/nsis/*.exe

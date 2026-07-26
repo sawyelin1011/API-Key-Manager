@@ -380,7 +380,7 @@ def setup_debug_routes(app: FastAPI, logger: DebugLogger):
 
 DEBUG_PANEL_HTML = """
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -659,7 +659,7 @@ DEBUG_PANEL_HTML = """
 
         function formatTime(isoString) {
             const date = new Date(isoString);
-            return date.toLocaleTimeString('zh-CN', { hour12: false });
+            return date.toLocaleTimeString('en-US', { hour12: false });
         }
 
         function formatData(data) {
@@ -818,7 +818,7 @@ DEBUG_PANEL_HTML = """
                     }
 
                     document.getElementById('last-update').textContent = 
-                        'Last update: ' + new Date().toLocaleTimeString('zh-CN');
+                        'Last update: ' + new Date().toLocaleTimeString('en-US');
                 } catch (err) {
                     console.error('Failed to parse SSE data:', err);
                 }

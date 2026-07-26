@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KeyHub // API 密钥管理中心</title>
+    <title>KeyHub // API Key Manager</title>
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27><path d=%27M15 7a2 2 0 0 1 2 2m4 0a6 6 0 0 1-7.74 5.74L11 17H9v2H7v2H4a1 1 0 0 1-1-1v-2.59a1 1 0 0 1 .29-.71l5.96-5.96A6 6 0 1 1 21 9z%27 fill=%27none%27 stroke=%27%2300f0ff%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -29,13 +29,13 @@
                 </div>
                 <div class="logo-text">
                     <h1>KeyHub</h1>
-                    <div class="tagline">API 密钥管理中心</div>
+                    <div class="tagline">API Key Manager</div>
                 </div>
             </div>
             <div class="header-status">
                 <div class="status-indicator" id="proxy-status">
                     <div class="status-dot"></div>
-                    <span>初始化中...</span>
+                    <span>Initializing...</span>
                 </div>
             </div>
         </div>
@@ -45,22 +45,22 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="switchTab('all')">
                 <div class="stat-icon cyan"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
-                <div class="stat-label">密钥总数</div>
+                <div class="stat-label">Total Keys</div>
                 <div class="stat-value cyan" id="total-keys">-</div>
             </div>
             <div class="stat-card" onclick="switchTab('valid')">
                 <div class="stat-icon green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-                <div class="stat-label">有效</div>
+                <div class="stat-label">Valid</div>
                 <div class="stat-value green" id="valid-keys">-</div>
             </div>
             <div class="stat-card" onclick="switchTab('invalid')">
                 <div class="stat-icon red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
-                <div class="stat-label">无效</div>
+                <div class="stat-label">Invalid</div>
                 <div class="stat-value red" id="invalid-keys">-</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon magenta"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-                <div class="stat-label">服务商</div>
+                <div class="stat-label">Providers</div>
                 <div class="stat-value magenta" id="providers-count">-</div>
             </div>
         </div>

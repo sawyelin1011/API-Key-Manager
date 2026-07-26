@@ -57,7 +57,7 @@ export function ImportDialog({ colors: c, open, onClose, onImportSuccess }: Prop
                 setErrorMsg('');
               })
               .catch((err: any) => {
-                setErrorMsg('无法读取文件: ' + (err.message || err));
+                setErrorMsg('Unable to read file: ' + (err.message || err));
                 setStage('error');
               });
           }
@@ -111,7 +111,7 @@ export function ImportDialog({ colors: c, open, onClose, onImportSuccess }: Prop
       setStage('done');
       onImportSuccess?.(fileName, n, d);
     } catch (err: any) {
-      setErrorMsg(err.message || '导入失败');
+      setErrorMsg(err.message || 'Import failed');
       setStage('error');
     }
   };
@@ -155,7 +155,7 @@ export function ImportDialog({ colors: c, open, onClose, onImportSuccess }: Prop
               }}>
                 <Upload size={20} color={c.info} />
               </div>
-              <span style={{ flex: 1, fontSize: 16, fontWeight: 700, color: c.textPrimary }}>导入 JSON 密钥</span>
+              <span style={{ flex: 1, fontSize: 16, fontWeight: 700, color: c.textPrimary }}>Import JSON Keys</span>
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -187,19 +187,19 @@ export function ImportDialog({ colors: c, open, onClose, onImportSuccess }: Prop
                 {dragging ? (
                   <>
                     <FileCheck size={40} color={c.primary} />
-                    <span style={{ fontSize: 14, fontWeight: 600, color: c.primary }}>松开以导入文件</span>
+                    <span style={{ fontSize: 14, fontWeight: 600, color: c.primary }}>Release to import file</span>
                   </>
                 ) : fileName ? (
                   <>
                     <FileJson size={40} color={c.primary} />
                     <span style={{ fontSize: 14, fontWeight: 600, color: c.textPrimary }}>{fileName}</span>
-                    <span style={{ fontSize: 12, color: c.textTertiary }}>支持 .json 格式</span>
+                    <span style={{ fontSize: 12, color: c.textTertiary }}>Supports .json format</span>
                   </>
                 ) : (
                   <>
                     <Upload size={40} color={c.textTertiary} />
-                    <span style={{ fontSize: 14, fontWeight: 600, color: c.textSecondary }}>点击选择文件或拖入 JSON 文件</span>
-                    <span style={{ fontSize: 12, color: c.textTertiary }}>支持 .json 格式</span>
+                    <span style={{ fontSize: 14, fontWeight: 600, color: c.textSecondary }}>Click to select or drag a JSON file</span>
+                    <span style={{ fontSize: 12, color: c.textTertiary }}>Supports .json format</span>
                   </>
                 )}
               </motion.div>
@@ -241,10 +241,10 @@ export function ImportDialog({ colors: c, open, onClose, onImportSuccess }: Prop
                 >
                   <CheckCircle size={48} color={c.success} />
                 </motion.div>
-                <span style={{ fontSize: 16, fontWeight: 700, color: c.textPrimary }}>导入成功</span>
+                <span style={{ fontSize: 16, fontWeight: 700, color: c.textPrimary }}>Import Successful</span>
                 <div style={{ display: 'flex', gap: 24 }}>
-                  <ResultBadge colors={c} label="新增" value={newCount} type="success" />
-                  <ResultBadge colors={c} label="重复" value={dupeCount} type="warning" />
+                  <ResultBadge colors={c} label="New" value={newCount} type="success" />
+                  <ResultBadge colors={c} label="Duplicates" value={dupeCount} type="warning" />
                 </div>
               </motion.div>
             )}
@@ -264,7 +264,7 @@ export function ImportDialog({ colors: c, open, onClose, onImportSuccess }: Prop
                     fontSize: 14, fontWeight: 600, cursor: 'pointer',
                   }}
                 >
-                  完成
+                  Done
                 </motion.button>
               ) : (
                 <>
@@ -277,7 +277,7 @@ export function ImportDialog({ colors: c, open, onClose, onImportSuccess }: Prop
                       color: c.textTertiary, fontSize: 14, fontWeight: 500, cursor: 'pointer',
                     }}
                   >
-                    取消
+                    Cancel
                   </motion.button>
                   <motion.button
                     whileTap={{ scale: 0.95 }}
@@ -303,9 +303,9 @@ export function ImportDialog({ colors: c, open, onClose, onImportSuccess }: Prop
                             borderTopColor: '#fff',
                           }}
                         />
-                        导入中...
+                        Importing...
                       </>
-                    ) : '导入'}
+                    ) : 'Import'}
                   </motion.button>
                 </>
               )}

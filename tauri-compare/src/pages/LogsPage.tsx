@@ -97,8 +97,8 @@ export function LogsPage({ colors: c, visible }: Props) {
       <StaggeredFadeIn index={0}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 700, color: c.textPrimary, letterSpacing: -0.5, margin: 0 }}>日志</h1>
-            <p style={{ fontSize: 13, color: c.textTertiary, margin: '4px 0 0' }}>操作日志与系统状态</p>
+            <h1 style={{ fontSize: 22, fontWeight: 700, color: c.textPrimary, letterSpacing: -0.5, margin: 0 }}>Logs</h1>
+            <p style={{ fontSize: 13, color: c.textTertiary, margin: '4px 0 0' }}>Operation logs & system status</p>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
             {operations.length > 0 && (
@@ -115,7 +115,7 @@ export function LogsPage({ colors: c, visible }: Props) {
                     }}
                   >
                     <Trash2 size={14} />
-                    清空日志
+                    Clear Logs
                   </div>
                 </BouncyPress>
               </HoverPress>
@@ -181,7 +181,7 @@ export function LogsPage({ colors: c, visible }: Props) {
                     animation: 'spin 1s linear infinite',
                   }}
                 />
-                <span style={{ fontSize: 13, color: c.textTertiary }}>加载中...</span>
+                <span style={{ fontSize: 13, color: c.textTertiary }}>Loading...</span>
               </div>
             ) : proxy?.proxy ? (
               <>
@@ -197,7 +197,7 @@ export function LogsPage({ colors: c, visible }: Props) {
                 <span style={{
                   fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 4,
                   background: `${c.info}1F`, color: c.info,
-                }}>{proxy.source === 'config' ? '配置文件' : '系统代理'}</span>
+                }}>{proxy.source === 'config' ? 'Config File' : 'System Proxy'}</span>
               </>
             ) : (
               <>
@@ -205,10 +205,10 @@ export function LogsPage({ colors: c, visible }: Props) {
                   width: 8, height: 8, borderRadius: '50%',
                   background: c.textTertiary,
                 }} />
-                <span style={{ fontSize: 13, color: c.textSecondary }}>未配置代理</span>
+                <span style={{ fontSize: 13, color: c.textSecondary }}>No Proxy Configured</span>
                 <span style={{
                   fontSize: 11, color: c.textTertiary, marginLeft: 'auto',
-                }}>所有请求直连</span>
+                }}>All requests direct</span>
               </>
             )}
           </div>
@@ -217,8 +217,8 @@ export function LogsPage({ colors: c, visible }: Props) {
             fontSize: 11, color: c.textTertiary, marginTop: 8, paddingLeft: 40,
           }}>
             {proxy?.proxy
-              ? '代理用于转发密钥检测、余额查询等 API 请求'
-              : '如需通过代理访问 API，请在 config.yaml 中配置 proxy 字段'}
+              ? 'Proxy is used to forward key checks, balance queries, etc.'
+              : 'To route API calls through a proxy, configure the proxy field in config.yaml'}
           </div>
         </div>
       </StaggeredFadeIn>
@@ -233,11 +233,11 @@ export function LogsPage({ colors: c, visible }: Props) {
           }}>
             <FileText size={16} color={c.primary} />
           </div>
-          <span style={{ fontSize: 14, fontWeight: 600, color: c.textPrimary }}>操作日志</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: c.textPrimary }}>Operation Logs</span>
           <span style={{
             fontSize: 11, fontWeight: 600, color: c.textTertiary,
             background: c.surfaceLow, padding: '2px 8px', borderRadius: 10,
-          }}>{hasFilter ? `${filtered.length} / ${operations.length}` : `${operations.length}`} 条记录</span>
+          }}>{hasFilter ? `${filtered.length} / ${operations.length}` : `${operations.length}`} records</span>
           <div style={{ flex: 1 }} />
           {/* Filter toggle button */}
           <HoverPress>
@@ -254,7 +254,7 @@ export function LogsPage({ colors: c, visible }: Props) {
                 }}
               >
                 <Calendar size={14} />
-                筛选
+                Filter
                 {hasFilter && (
                   <span style={{
                     width: 16, height: 16, borderRadius: '50%',
@@ -291,7 +291,7 @@ export function LogsPage({ colors: c, visible }: Props) {
                   <span style={{
                     fontSize: 11, fontWeight: 600, color: c.textTertiary,
                     width: 28, textAlign: 'right', flexShrink: 0,
-                  }}>从</span>
+                  }}>From</span>
                   <DatePicker colors={c} value={dateFrom} onChange={setDateFrom} />
                   <TimePicker colors={c} value={timeFrom} onChange={setTimeFrom} />
                 </div>
@@ -300,7 +300,7 @@ export function LogsPage({ colors: c, visible }: Props) {
                   <span style={{
                     fontSize: 11, fontWeight: 600, color: c.textTertiary,
                     width: 28, textAlign: 'right', flexShrink: 0,
-                  }}>至</span>
+                  }}>To</span>
                   <DatePicker colors={c} value={dateTo} onChange={setDateTo} />
                   <TimePicker colors={c} value={timeTo} onChange={setTimeTo} />
                 </div>
@@ -319,7 +319,7 @@ export function LogsPage({ colors: c, visible }: Props) {
                       }}
                     >
                       <X size={12} />
-                      清除筛选
+                      Clear Filter
                     </motion.button>
                   </div>
                 )}
@@ -345,9 +345,9 @@ export function LogsPage({ colors: c, visible }: Props) {
             display: 'flex', alignItems: 'center',
             borderBottom: `1px solid ${c.borderSubtle}`,
           }}>
-            <span style={{ flex: 2, fontSize: 11, fontWeight: 600, color: c.textTertiary }}>时间</span>
-            <span style={{ flex: 2, fontSize: 11, fontWeight: 600, color: c.textTertiary }}>操作</span>
-            <span style={{ flex: 4, fontSize: 11, fontWeight: 600, color: c.textTertiary }}>详情</span>
+            <span style={{ flex: 2, fontSize: 11, fontWeight: 600, color: c.textTertiary }}>Time</span>
+            <span style={{ flex: 2, fontSize: 11, fontWeight: 600, color: c.textTertiary }}>Action</span>
+            <span style={{ flex: 4, fontSize: 11, fontWeight: 600, color: c.textTertiary }}>Detail</span>
             <span style={{ width: 36 }} />
           </div>
 
@@ -377,7 +377,7 @@ export function LogsPage({ colors: c, visible }: Props) {
                 }}
               >
                 <FileText size={48} style={{ margin: '0 auto 16px', opacity: 0.4 }} />
-                <div>{hasFilter ? '当前筛选条件下无日志' : '暂无操作日志'}</div>
+                <div>{hasFilter ? 'No logs matching filters' : 'No operation logs'}</div>
               </motion.div>
             ) : (
               filtered.map((op, i) => (
@@ -398,12 +398,12 @@ export function LogsPage({ colors: c, visible }: Props) {
         {confirmClear && (
           <ConfirmDialog
             colors={c}
-            title="清空日志"
+            title="Clear Logs"
             desc={dateFrom
-              ? `确定要清空 ${dateFrom} 的操作日志吗？此操作不可恢复。`
-              : "确定要清空所有操作日志吗？此操作不可恢复。"
+              ? `Are you sure you want to clear the operation logs for ${dateFrom}? This cannot be undone.`
+              : "Are you sure you want to clear all operation logs? This cannot be undone."
             }
-            confirmLabel="清空"
+            confirmLabel="Clear"
             destructive
             onConfirm={handleClearAll}
             onCancel={() => setConfirmClear(false)}
@@ -630,11 +630,11 @@ function DatePicker({ colors: c, value, onChange }: {
 
   return (
     <div style={{ flex: 1, display: 'flex', gap: 4 }}>
-      <CustomSelect colors={c} value={year} options={yearOpts} placeholder="年" flex={1.3}
+      <CustomSelect colors={c} value={year} options={yearOpts} placeholder="Y" flex={1.3}
         onChange={v => set(v, month, day)} />
-      <CustomSelect colors={c} value={month} options={monthOpts} placeholder="月" flex={0.8}
+      <CustomSelect colors={c} value={month} options={monthOpts} placeholder="M" flex={0.8}
         onChange={v => set(year, v, day)} />
-      <CustomSelect colors={c} value={day} options={dayOpts} placeholder="日" flex={0.8}
+      <CustomSelect colors={c} value={day} options={dayOpts} placeholder="D" flex={0.8}
         onChange={v => set(year, month, v)} />
     </div>
   );
@@ -659,11 +659,11 @@ function TimePicker({ colors: c, value, onChange }: {
 
   return (
     <div style={{ flex: 1, display: 'flex', gap: 4 }}>
-      <CustomSelect colors={c} value={hour} options={hourOpts} placeholder="时"
+      <CustomSelect colors={c} value={hour} options={hourOpts} placeholder="HH"
         onChange={v => set(v, minute, second)} />
-      <CustomSelect colors={c} value={minute} options={minOpts} placeholder="分"
+      <CustomSelect colors={c} value={minute} options={minOpts} placeholder="MM"
         onChange={v => set(hour, v, second)} />
-      <CustomSelect colors={c} value={second} options={secOpts} placeholder="秒"
+      <CustomSelect colors={c} value={second} options={secOpts} placeholder="SS"
         onChange={v => set(hour, minute, v)} />
     </div>
   );

@@ -80,7 +80,7 @@ export function ConfirmDialog({ colors: c, title, desc, confirmLabel, onConfirm,
               color: c.textTertiary,
               fontSize: 13, fontWeight: 600, cursor: 'pointer',
             }}
-          >取消</motion.button>
+          >Cancel</motion.button>
           <motion.button
             whileTap={{ scale: 0.97 }}
             transition={{ type: 'spring', damping: 20, stiffness: 400 }}
@@ -92,7 +92,7 @@ export function ConfirmDialog({ colors: c, title, desc, confirmLabel, onConfirm,
               color: c.onPrimary,
               fontSize: 14, fontWeight: 600, cursor: 'pointer',
             }}
-          >{confirmLabel || (destructive ? '清空' : '删除')}</motion.button>
+          >{confirmLabel || (destructive ? 'Clear' : 'Delete')}</motion.button>
         </div>
       </motion.div>
     </motion.div>

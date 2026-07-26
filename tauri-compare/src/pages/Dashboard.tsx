@@ -12,10 +12,10 @@ import { UploadIcon, ShieldIcon, RocketIcon, DownloadIcon, TrashIcon } from '../
 import { ImportDialog } from '../components/ImportDialog';
 
 const STAT_CONFIGS = [
-  { key: 'total_keys' as const, label: '总密钥数', icon: Key, colorKey: 'info' as const },
-  { key: 'valid_keys' as const, label: '有效', icon: CheckCircle, colorKey: 'success' as const },
-  { key: 'invalid_keys' as const, label: '无效', icon: XCircle, colorKey: 'error' as const },
-  { key: 'providers' as const, label: '服务商', icon: Cloud, colorKey: 'secondary' as const },
+  { key: 'total_keys' as const, label: 'Total Keys', icon: Key, colorKey: 'info' as const },
+  { key: 'valid_keys' as const, label: 'Valid', icon: CheckCircle, colorKey: 'success' as const },
+  { key: 'invalid_keys' as const, label: 'Invalid', icon: XCircle, colorKey: 'error' as const },
+  { key: 'providers' as const, label: 'Providers', icon: Cloud, colorKey: 'secondary' as const },
 ];
 
 interface Props {
@@ -129,29 +129,29 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
 
   const handleCheckAll = async () => {
     if (!stats || (stats.total ?? 0) === 0) {
-      showToast('没有可供检测的密钥', 'warning');
+      showToast('No keys available to check', 'warning');
       return;
     }
     try {
       await api.checkAll();
-      showToast('检测已启动');
-      startProgressStream('检测全部');
+      showToast('Check started');
+      startProgressStream('Check All');
     } catch (e: any) {
-      showToast('检测启动失败: ' + e.message, 'error');
+      showToast('Check failed to start: ' + e.message, 'error');
     }
   };
 
   const handleTestAll = async () => {
     if (!stats || (stats.total ?? 0) === 0) {
-      showToast('没有可供测试的密钥', 'warning');
+      showToast('No keys available to test', 'warning');
       return;
     }
     try {
       await api.testToken();
-      showToast('测试已启动');
-      startProgressStream('测试全部');
+      showToast('Test started');
+      startProgressStream('Test All');
     } catch (e: any) {
-      showToast('测试启动失败: ' + e.message, 'error');
+      showToast('Test failed to start: ' + e.message, 'error');
     }
   };
 
@@ -159,7 +159,7 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
     try {
       const res = await api.exportKeys();
       if (!res.keys.length) {
-        showToast('没有可导出的密钥', 'warning');
+        showToast('No keys to export', 'warning');
         return;
       }
       const blob = new Blob([JSON.stringify(res.keys, null, 2)], { type: 'application/json' });
@@ -167,9 +167,9 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
       const a = document.createElement('a');
       a.href = url; a.download = 'keys_export.json'; a.click();
       URL.revokeObjectURL(url);
-      showToast(`已导出 ${res.keys.length} 个密钥`);
+      showToast(`Exported ${res.keys.length} keys`);
     } catch (e: any) {
-      showToast('导出失败: ' + e.message, 'error');
+      showToast('Export failed: ' + e.message, 'error');
     }
   };
 
@@ -178,10 +178,10 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
     setConfirmClearOpen(false);
     try {
       await api.clearKeys();
-      showToast('已清空所有密钥');
+      showToast('All keys cleared');
       load();
     } catch (e: any) {
-      showToast('清空失败: ' + e.message, 'error');
+      showToast('Clear failed: ' + e.message, 'error');
     }
   };
 
@@ -200,11 +200,11 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
     : [0, 0, 0, 0];
 
   const quickActions = [
-    { id: 'import', icon: Upload, label: '导入密钥', desc: '从 JSON 文件批量导入', color: c.info, onClick: handleImport, AnimatedIcon: UploadIcon },
-    { id: 'checkAll', icon: Shield, label: '检测全部', desc: '验证所有密钥', color: c.primary, onClick: handleCheckAll, AnimatedIcon: ShieldIcon },
-    { id: 'testAll', icon: Rocket, label: '测试全部', desc: 'Token与并发测试', color: c.warning, onClick: handleTestAll, AnimatedIcon: RocketIcon },
-    { id: 'export', icon: Download, label: '导出有效密钥', desc: '导出可用密钥', color: c.success, onClick: handleExport, AnimatedIcon: DownloadIcon },
-    { id: 'clear', icon: Trash2, label: '清空密钥', desc: '移除所有已导入密钥', color: c.error, onClick: handleClear, AnimatedIcon: TrashIcon },
+    { id: 'import', icon: Upload, label: 'Import Keys', desc: 'Batch import from JSON file', color: c.info, onClick: handleImport, AnimatedIcon: UploadIcon },
+    { id: 'checkAll', icon: Shield, label: 'Check All', desc: 'Validate all keys', color: c.primary, onClick: handleCheckAll, AnimatedIcon: ShieldIcon },
+    { id: 'testAll', icon: Rocket, label: 'Test All', desc: 'Token & concurrency test', color: c.warning, onClick: handleTestAll, AnimatedIcon: RocketIcon },
+    { id: 'export', icon: Download, label: 'Export Valid Keys', desc: 'Export usable keys', color: c.success, onClick: handleExport, AnimatedIcon: DownloadIcon },
+    { id: 'clear', icon: Trash2, label: 'Clear Keys', desc: 'Remove all imported keys', color: c.error, onClick: handleClear, AnimatedIcon: TrashIcon },
   ];
 
   const toastIcon = toast?.type === 'error' ? '!' : toast?.type === 'warning' ? '!' : '✓';
@@ -219,8 +219,8 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 700, color: c.textPrimary, margin: 0, letterSpacing: -0.5 }}>仪表盘</h1>
-            <p style={{ fontSize: 13, color: c.textTertiary, margin: '4px 0 0' }}>概览与快捷操作</p>
+            <h1 style={{ fontSize: 22, fontWeight: 700, color: c.textPrimary, margin: 0, letterSpacing: -0.5 }}>Dashboard</h1>
+            <p style={{ fontSize: 13, color: c.textTertiary, margin: '4px 0 0' }}>Overview & Quick Actions</p>
           </div>
           <RefreshButton colors={c} onClick={load} />
         </div>
@@ -244,7 +244,7 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
         >
           <CloudOff size={24} color={c.warning} />
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 14, fontWeight: 600, color: c.textPrimary }}>后端服务未连接</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: c.textPrimary }}>Backend Not Connected</div>
             <div style={{ fontSize: 12, color: c.textTertiary, marginTop: 2 }}>{error}</div>
           </div>
           <motion.button
@@ -256,7 +256,7 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
               border: 'none', background: `${c.warning}1A`,
               color: c.warning, fontSize: 12, fontWeight: 600, cursor: 'pointer',
             }}
-          >重试</motion.button>
+          >Retry</motion.button>
         </motion.div>
       )}
 
@@ -288,7 +288,7 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.24, ease: [0, 0, 0.2, 1] }}
       >
-        <div style={{ fontSize: 15, fontWeight: 600, color: c.textPrimary, letterSpacing: -0.2 }}>快捷操作</div>
+        <div style={{ fontSize: 15, fontWeight: 600, color: c.textPrimary, letterSpacing: -0.2 }}>Quick Actions</div>
       </motion.div>
       <div style={{ height: 20 }} />
       <div style={{ display: 'flex', gap: 12 }}>
@@ -326,14 +326,14 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
                 <Loader2 size={16} color={c.primary} style={{ animation: progress.active ? 'spin 1s linear infinite' : 'none' }} />
                 <span style={{ fontSize: 13, fontWeight: 600, color: c.textPrimary }}>{progress.label}</span>
                 <span style={{ fontSize: 12, color: c.textTertiary }}>
-                  {progress.total > 0 ? `${progress.current} / ${progress.total}` : '处理中...'}
+                  {progress.total > 0 ? `${progress.current} / ${progress.total}` : 'Processing...'}
                 </span>
                 <div style={{ flex: 1 }} />
                 {!progress.active && (
                   <span style={{
                     fontSize: 11, fontWeight: 600, padding: '2px 8px', borderRadius: 4,
                     background: `${c.success}1F`, color: c.success,
-                  }}>完成</span>
+                  }}>Done</span>
                 )}
               </div>
               <div style={{ height: 6, borderRadius: 4, background: c.surfaceLow, overflow: 'hidden' }}>
@@ -369,7 +369,7 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
         transition={{ duration: 0.4, delay: 0.48, ease: [0, 0, 0.2, 1] }}
         style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}
       >
-        <div style={{ fontSize: 15, fontWeight: 600, color: c.textPrimary, letterSpacing: -0.2, marginBottom: 20 }}>服务商分布</div>
+        <div style={{ fontSize: 15, fontWeight: 600, color: c.textPrimary, letterSpacing: -0.2, marginBottom: 20 }}>Provider Distribution</div>
         <div style={{
           background: c.surface, borderRadius: 12, padding: '16px 20px',
           border: `1px solid ${c.borderSubtle}`,
@@ -386,7 +386,7 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
                   justifyContent: 'center', padding: '40px 0', gap: 8,
                 }}>
                   <Cloud size={32} color={`${c.textTertiary}80`} />
-                  <div style={{ fontSize: 13, color: c.textTertiary }}>导入密钥后将显示服务商分布</div>
+                  <div style={{ fontSize: 13, color: c.textTertiary }}>Import keys to see provider distribution</div>
                 </div>
               );
             }
@@ -413,7 +413,7 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
         onClose={() => setImportOpen(false)}
         onImportSuccess={(fileName, newCount, dupeCount) => {
           onImportSuccess?.(fileName, newCount, dupeCount);
-          showToast(`导入成功: ${fileName}`);
+          showToast(`Import successful: ${fileName}`);
           load();
         }}
       />
@@ -423,8 +423,8 @@ export function Dashboard({ colors: c, visible, onNavigate: _onNavigate, onImpor
         {confirmClearOpen && (
           <ConfirmDialog
             colors={c}
-            title="确认清空"
-            desc="确定要清空所有已导入的密钥吗？导入历史记录不会被删除。"
+            title="Clear All Keys"
+            desc="Are you sure you want to clear all imported keys? Import history will not be deleted."
             destructive
             onConfirm={doClear}
             onCancel={() => setConfirmClearOpen(false)}
@@ -496,7 +496,7 @@ function RefreshButton({ colors: c, onClick }: { colors: Colors; onClick: () => 
       <motion.div animate={spinControls}>
         <RefreshCw size={15} />
       </motion.div>
-      <span>刷新</span>
+      <span>Refresh</span>
     </motion.div>
   );
 }

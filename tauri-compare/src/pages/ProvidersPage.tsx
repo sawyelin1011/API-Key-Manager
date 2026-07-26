@@ -105,7 +105,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
   const handleTest = async () => {
     if (!selected) return;
     if (!testKey.trim()) {
-      setTestResult({ success: false, provider: selected.name, error: '请输入 API Key 进行真实连接测试' });
+      setTestResult({ success: false, provider: selected.name, error: 'Please enter an API Key for connectivity test' });
       return;
     }
     setTesting(true);
@@ -146,7 +146,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
 
   const submitEdit = async () => {
     if (!editForm.name.trim() || !editForm.base_url.trim() || !editForm.check_endpoint.trim()) {
-      setEditError('名称、Base URL 和检测端点为必填项');
+      setEditError('Name, Base URL, and check endpoint are required');
       return;
     }
     setEditLoading(true);
@@ -154,10 +154,10 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
     try {
       if (editMode === 'create') {
         await api.createProvider(editForm);
-        showToast(`服务商 "${editForm.name}" 创建成功`);
+        showToast(`Provider "${editForm.name}" created successfully`);
       } else {
         await api.updateProvider(editForm.name, editForm);
-        showToast(`服务商 "${editForm.name}" 更新成功`);
+        showToast(`Provider "${editForm.name}" updated successfully`);
       }
       setEditMode(null);
       load();
@@ -172,12 +172,12 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
   const handleDelete = async (name: string) => {
     try {
       await api.deleteProvider(name);
-      showToast(`服务商 "${name}" 已删除`);
+      showToast(`Provider "${name}" deleted`);
       setConfirmDelete(null);
       closeDetail();
       load();
     } catch (e: any) {
-      showToast(`删除失败: ${e.message}`, 'error');
+      showToast(`Delete failed: ${e.message}`, 'error');
     }
   };
 
@@ -193,8 +193,8 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 700, color: c.textPrimary, margin: 0, letterSpacing: -0.5 }}>服务商</h1>
-            <p style={{ fontSize: 13, color: c.textTertiary, margin: '4px 0 0' }}>已支持的 API 服务商列表</p>
+            <h1 style={{ fontSize: 22, fontWeight: 700, color: c.textPrimary, margin: 0, letterSpacing: -0.5 }}>Providers</h1>
+            <p style={{ fontSize: 13, color: c.textTertiary, margin: '4px 0 0' }}>Supported API providers</p>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
             <motion.button
@@ -215,7 +215,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
               }}
             >
               <Plus size={14} />
-              新建服务商
+              New Provider
             </motion.button>
             <motion.button
               whileHover={{ y: 2 }}
@@ -336,7 +336,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                       <span style={{
                         fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 4,
                         background: `${c.info}1F`, color: c.info,
-                      }}>自定义</span>
+                      }}>Custom</span>
                     )}
                   </div>
                   <div style={{ fontSize: 11, fontFamily: 'Consolas', color: c.textTertiary }}>{selected.name}</div>
@@ -348,7 +348,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                 <div style={{ marginBottom: 20 }}>
                   {selectedDetail.prefix && (
                     <div style={{ display: 'flex', marginBottom: 10 }}>
-                      <div style={{ width: 80, fontSize: 12, fontWeight: 500, color: c.textTertiary }}>Key 前缀</div>
+                      <div style={{ width: 80, fontSize: 12, fontWeight: 500, color: c.textTertiary }}>Key Prefix</div>
                       <code style={{ fontSize: 13, fontFamily: 'Consolas', color: c.textPrimary }}>{selectedDetail.prefix}</code>
                     </div>
                   )}
@@ -360,13 +360,13 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                   )}
                   {selectedConfig?.check_endpoint && (
                     <div style={{ display: 'flex', marginBottom: 10 }}>
-                      <div style={{ width: 80, fontSize: 12, fontWeight: 500, color: c.textTertiary }}>检测端点</div>
+                      <div style={{ width: 80, fontSize: 12, fontWeight: 500, color: c.textTertiary }}>Check Endpoint</div>
                       <code style={{ fontSize: 13, fontFamily: 'Consolas', color: c.textPrimary, wordBreak: 'break-all' }}>{selectedConfig.check_endpoint}</code>
                     </div>
                   )}
                   {selectedDetail.website_url && (
                     <div style={{ display: 'flex', marginBottom: 10 }}>
-                      <div style={{ width: 80, fontSize: 12, fontWeight: 500, color: c.textTertiary }}>官网</div>
+                      <div style={{ width: 80, fontSize: 12, fontWeight: 500, color: c.textTertiary }}>Website</div>
                       <span
                         onClick={() => openUrl(selectedDetail.website_url!)}
                         style={{ fontSize: 13, color: c.primary, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}
@@ -380,7 +380,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                   )}
                   {selectedDetail.docs_url && (
                     <div style={{ display: 'flex', marginBottom: 10 }}>
-                      <div style={{ width: 80, fontSize: 12, fontWeight: 500, color: c.textTertiary }}>文档</div>
+                      <div style={{ width: 80, fontSize: 12, fontWeight: 500, color: c.textTertiary }}>Docs</div>
                       <span
                         onClick={() => openUrl(selectedDetail.docs_url!)}
                         style={{ fontSize: 13, color: c.primary, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}
@@ -388,7 +388,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                         onMouseLeave={e => { e.currentTarget.style.textDecoration = 'none'; }}
                       >
                         <BookOpen size={12} />
-                        API 文档
+                        API Docs
                         <ExternalLink size={12} />
                       </span>
                     </div>
@@ -413,12 +413,12 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                       ? <CheckCircle size={16} color={c.success} />
                       : <XCircle size={16} color={c.error} />}
                     <span style={{ fontSize: 13, fontWeight: 600, color: testResult.success ? c.success : c.error }}>
-                      {testResult.success ? '连接成功' : '连接失败'}
+                      {testResult.success ? 'Connection Succeeded' : 'Connection Failed'}
                     </span>
                   </div>
                   {testResult.success && testResult.models_count != null && (
                     <div style={{ fontSize: 12, color: c.textTertiary, marginTop: 4 }}>
-                      发现 {testResult.models_count} 个模型
+                      Found {testResult.models_count} models
                       {testResult.sample_models && testResult.sample_models.length > 0 && (
                         <span>: {testResult.sample_models.join(', ')}</span>
                       )}
@@ -433,12 +433,12 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
               {/* Test key input */}
               <div style={{ marginBottom: 12 }}>
                 <div style={{ fontSize: 12, fontWeight: 500, color: c.textSecondary, marginBottom: 6 }}>
-                  API Key（用于真实连通性测试）
+                  API Key (for real connectivity test)
                 </div>
                 <input
                   value={testKey}
                   onChange={e => setTestKey(e.target.value)}
-                  placeholder="输入该服务商的 API Key"
+                  placeholder="Enter the provider's API Key"
                   type="password"
                   style={{
                     width: '100%', padding: '8px 12px', borderRadius: 8,
@@ -469,7 +469,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                   }}
                 >
                   {testing ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <Wifi size={14} />}
-                  {testing ? '测试中...' : '测试连通性'}
+                  {testing ? 'Testing...' : 'Test Connectivity'}
                 </motion.button>
 
                 {isCustom(selected.name) && (
@@ -486,7 +486,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                       }}
                     >
                       <Pencil size={14} />
-                      编辑
+                      Edit
                     </motion.button>
                     <motion.button
                       whileTap={{ scale: 0.97 }}
@@ -500,7 +500,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                       }}
                     >
                       <Trash2 size={14} />
-                      删除
+                      Delete
                     </motion.button>
                   </>
                 )}
@@ -516,7 +516,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                     border: 'none', background: 'transparent',
                     color: c.textTertiary, fontSize: 13, fontWeight: 600, cursor: 'pointer',
                   }}
-                >关闭</motion.button>
+                >Close</motion.button>
                 <motion.button
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: 'spring', damping: 20, stiffness: 400 }}
@@ -530,7 +530,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                     fontSize: 14, fontWeight: 600, cursor: 'pointer',
                   }}
                 >
-                  查看密钥
+                  View Keys
                 </motion.button>
               </div>
             </motion.div>
@@ -569,7 +569,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
               }}
             >
               <div style={{ fontSize: 18, fontWeight: 700, color: c.textPrimary, marginBottom: 20 }}>
-                {editMode === 'create' ? '新建服务商' : '编辑服务商'}
+                {editMode === 'create' ? 'New Provider' : 'Edit Provider'}
               </div>
 
               <ProviderForm colors={c} form={editForm} onChange={setEditForm} disabled={editMode === 'edit'} />
@@ -595,7 +595,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                     border: 'none', background: 'transparent',
                     color: c.textTertiary, fontSize: 13, fontWeight: 600, cursor: 'pointer',
                   }}
-                >取消</motion.button>
+                >Cancel</motion.button>
                 <motion.button
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: 'spring', damping: 20, stiffness: 400 }}
@@ -610,7 +610,7 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
                   }}
                 >
                   {editLoading && <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} />}
-                  {editMode === 'create' ? '创建' : '保存'}
+                  {editMode === 'create' ? 'Create' : 'Save'}
                 </motion.button>
               </div>
             </motion.div>
@@ -623,9 +623,9 @@ export function ProvidersPage({ colors: c, visible, onNavigateToKeys }: Props) {
         {confirmDelete && (
           <ConfirmDialog
             colors={c}
-            title="删除服务商"
-            desc={`确定要删除自定义服务商 "${confirmDelete}" 吗？此操作不可恢复。`}
-            confirmLabel="删除"
+            title="Delete Provider"
+            desc={`Are you sure you want to delete the custom provider "${confirmDelete}"? This cannot be undone.`}
+            confirmLabel="Delete"
             destructive
             onConfirm={() => handleDelete(confirmDelete)}
             onCancel={() => setConfirmDelete(null)}
@@ -706,7 +706,7 @@ function ProviderCard({ colors: c, provider, index, isCustom, onTap }: {
             <span style={{
               fontSize: 9, fontWeight: 600, padding: '1px 5px', borderRadius: 3,
               background: `${c.info}1F`, color: c.info, flexShrink: 0,
-            }}>自定义</span>
+            }}>Custom</span>
           )}
         </div>
         <div style={{ fontSize: 11, color: c.textTertiary, marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -761,12 +761,12 @@ function ProviderForm({ colors: c, form, onChange, disabled }: {
 
   return (
     <div>
-      {field('服务商名称', 'name', '例如: my-custom-provider', true)}
+      {field('Provider Name', 'name', 'e.g. my-custom-provider', true)}
       {field('Base URL', 'base_url', 'https://api.example.com/v1', true)}
-      {field('检测端点', 'check_endpoint', '/models (用于验证密钥)', true)}
-      {field('对话端点', 'chat_endpoint', '/chat/completions (可选)')}
-      {field('官网 URL', 'website_url', 'https://example.com (可选)')}
-      {field('文档 URL', 'docs_url', 'https://docs.example.com (可选)')}
+      {field('Check Endpoint', 'check_endpoint', '/models (for key validation)', true)}
+      {field('Chat Endpoint', 'chat_endpoint', '/chat/completions (optional)')}
+      {field('Website URL', 'website_url', 'https://example.com (optional)')}
+      {field('Docs URL', 'docs_url', 'https://docs.example.com (optional)')}
     </div>
   );
 }

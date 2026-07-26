@@ -123,8 +123,8 @@ export function ToolsPage({ colors: c, visible }: Props) {
         transition={{ duration: 0.4, ease: [0, 0, 0.2, 1] }}
       >
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: c.textPrimary, letterSpacing: -0.5, margin: 0 }}>工具箱</h1>
-          <p style={{ fontSize: 13, color: c.textTertiary, margin: '4px 0 0' }}>单键检测、批量检测、模型查询、测试工具</p>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: c.textPrimary, letterSpacing: -0.5, margin: 0 }}>Tools</h1>
+          <p style={{ fontSize: 13, color: c.textTertiary, margin: '4px 0 0' }}>Single key check, batch check, model query, testing tools</p>
         </div>
       </motion.div>
 
@@ -334,7 +334,7 @@ function ProviderDropdown({ colors: c, providers, value, onChange, width }: {
           }}
         >
           <span style={{ color: selected ? c.textPrimary : c.textTertiary }}>
-            {selected?.display_name || value || '选择服务商'}
+            {selected?.display_name || value || 'Select Provider'}
           </span>
           <motion.div
             animate={{ rotate: open ? 180 : 0 }}
@@ -490,14 +490,14 @@ function ManualCheckPanel({ colors: c, providers }: { colors: Colors; providers:
   };
 
   return (
-    <Panel colors={c} icon={<ShieldCheck size={16} />} title="手动检测">
+    <Panel colors={c} icon={<ShieldCheck size={16} />} title="Manual Check">
       <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
         <div style={{ flex: 3 }}>
           <Input
             colors={c}
             value={key}
             onChange={e => setKey(e.target.value)}
-            placeholder="输入 API Key"
+            placeholder="Enter API Key"
             prefixIcon={<KeyRound size={15} />}
             mono
           />
@@ -508,7 +508,7 @@ function ManualCheckPanel({ colors: c, providers }: { colors: Colors; providers:
             colors={c}
             value={baseUrl}
             onChange={e => setBaseUrl(e.target.value)}
-            placeholder="自定义 Base URL (可选)"
+            placeholder="Custom Base URL (optional)"
           />
         </div>
       </div>
@@ -518,12 +518,12 @@ function ManualCheckPanel({ colors: c, providers }: { colors: Colors; providers:
             colors={c}
             value={model}
             onChange={e => setModel(e.target.value)}
-            placeholder="指定模型 (可选，如 gpt-4o)"
+            placeholder="Specify model (optional, e.g. gpt-4o)"
           />
         </div>
       </div>
       <div style={{ marginTop: 14 }}>
-        <Btn colors={c} label="检测" loadingLabel="检测中..." loading={loading} disabled={!key.trim()} onClick={check} />
+        <Btn colors={c} label="Check" loadingLabel="Checking..." loading={loading} disabled={!key.trim()} onClick={check} />
       </div>
 
       {result && (
@@ -532,10 +532,10 @@ function ManualCheckPanel({ colors: c, providers }: { colors: Colors; providers:
             {result.status === 'valid' ? <Check size={22} color={c.success} /> : <XIcon size={22} color={c.error} />}
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 600, color: result.status === 'valid' ? c.success : c.error, fontSize: 13 }}>
-                {result.status === 'valid' ? '有效' : '无效'}
+                {result.status === 'valid' ? 'Valid' : 'Invalid'}
               </div>
               {result.latency_ms != null && (
-                <div style={{ fontSize: 12, color: c.textTertiary, marginTop: 2 }}>延迟: {result.latency_ms}ms</div>
+                <div style={{ fontSize: 12, color: c.textTertiary, marginTop: 2 }}>Latency: {result.latency_ms}ms</div>
               )}
               {result.error && <div style={{ fontSize: 12, color: c.error, marginTop: 2 }}>{result.error}</div>}
             </div>
@@ -565,17 +565,17 @@ function BatchCheckPanel({ colors: c, addToast }: { colors: Colors; addToast: (t
       const r = await api.checkBatch(keys.map(k => ({ key: k })), baseUrl || undefined);
       setResult(r);
     } catch (e: any) {
-      addToast('error', '批量检测失败', e.message);
+      addToast('error', 'Batch check failed', e.message);
     } finally { setLoading(false); }
   };
 
   return (
-    <Panel colors={c} icon={<ListChecks size={16} />} title="批量检测">
+    <Panel colors={c} icon={<ListChecks size={16} />} title="Batch Check">
       <Textarea
         colors={c}
         value={input}
         onChange={e => setInput(e.target.value)}
-        placeholder="每行一个 API Key"
+        placeholder="One API Key per line"
         rows={4}
       />
       <div style={{ marginTop: 10 }}>
@@ -583,11 +583,11 @@ function BatchCheckPanel({ colors: c, addToast }: { colors: Colors; addToast: (t
           colors={c}
           value={baseUrl}
           onChange={e => setBaseUrl(e.target.value)}
-          placeholder="自定义 Base URL (可选，如 https://api.example.com/v1)"
+          placeholder="Custom Base URL (optional, e.g. https://api.example.com/v1)"
         />
       </div>
       <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 10 }}>
-        <Btn colors={c} label="批量检测" loadingLabel="检测中..." loading={loading} disabled={!input.trim()} onClick={check} />
+        <Btn colors={c} label="Batch Check" loadingLabel="Checking..." loading={loading} disabled={!input.trim()} onClick={check} />
       </div>
 
       {result && (
@@ -598,10 +598,10 @@ function BatchCheckPanel({ colors: c, addToast }: { colors: Colors; addToast: (t
           }}>
             <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
               {[
-                { label: '总计', val: result.summary.total, color: c.info },
-                { label: '有效', val: result.summary.valid, color: c.success },
-                { label: '无效', val: result.summary.invalid, color: c.error },
-                { label: '错误', val: result.summary.error, color: c.warning },
+                { label: 'Total', val: result.summary.total, color: c.info },
+                { label: 'Valid', val: result.summary.valid, color: c.success },
+                { label: 'Invalid', val: result.summary.invalid, color: c.error },
+                { label: 'Error', val: result.summary.error, color: c.warning },
               ].map(s => (
                 <motion.div
                   key={s.label}
@@ -633,7 +633,7 @@ function BatchCheckPanel({ colors: c, addToast }: { colors: Colors; addToast: (t
               ))}
               {result.results.length > 10 && (
                 <div style={{ fontSize: 11, color: c.textTertiary, padding: '4px 0' }}>
-                  ... 还有 {result.results.length - 10} 条
+                  ... and {result.results.length - 10} more
                 </div>
               )}
             </div>
@@ -674,13 +674,13 @@ function ModelsPanel({ colors: c, providers, addToast }: {
         } catch {}
       }
     } catch (e: any) {
-      addToast('error', '模型查询失败', e.message);
+      addToast('error', 'Model query failed', e.message);
     } finally { setLoading(false); }
   };
 
   const checkModels = async () => {
     if (!key.trim()) {
-      addToast('error', '请输入 API Key', '可用性检查需要提供密钥');
+      addToast('error', 'Please enter an API Key', 'Availability check requires a key');
       return;
     }
     setCheckingModels(true); setSseProgress(0); setSseTotal(0); setSseCurrent(0); setAvailableModels([]);
@@ -704,10 +704,10 @@ function ModelsPanel({ colors: c, providers, addToast }: {
               }
               break;
             case 'model_timeout':
-              addToast('error', '模型超时', `${event.data.model || '未知模型'} 响应超时，已跳过`);
+              addToast('error', 'Model timeout', `${event.data.model || 'Unknown model'} timed out, skipped`);
               break;
             case 'serial_mode':
-              addToast('success', '切换串行模式', '并发请求过多，已自动切换为串行重试');
+              addToast('success', 'Switched to serial mode', 'Too many concurrent requests, auto-switched to serial retry');
               break;
             case 'complete':
               setSseProgress(1.0);
@@ -720,25 +720,25 @@ function ModelsPanel({ colors: c, providers, addToast }: {
   };
 
   const types = [
-    { val: 'all', label: '全部' },
-    { val: 'vision', label: '视觉' },
-    { val: 'tooluse', label: '工具' },
-    { val: 'reasoning', label: '推理' },
-    { val: 'websearch', label: '搜索' },
-    { val: 'embedding', label: '嵌入' },
-    { val: 'rerank', label: '重排' },
-    { val: 'free', label: '免费' },
+    { val: 'all', label: 'All' },
+    { val: 'vision', label: 'Vision' },
+    { val: 'tooluse', label: 'Tool Use' },
+    { val: 'reasoning', label: 'Reasoning' },
+    { val: 'websearch', label: 'Web Search' },
+    { val: 'embedding', label: 'Embedding' },
+    { val: 'rerank', label: 'Rerank' },
+    { val: 'free', label: 'Free' },
   ];
 
   return (
-    <Panel colors={c} icon={<Bot size={16} />} title="模型查询">
+    <Panel colors={c} icon={<Bot size={16} />} title="Model Query">
       <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
         <div style={{ flex: 1 }}>
           <Input
             colors={c}
             value={key}
             onChange={e => setKey(e.target.value)}
-            placeholder="API Key (可选，用于实时查询)"
+            placeholder="API Key (optional, for live query)"
             prefixIcon={<KeyRound size={15} />}
             mono
           />
@@ -751,8 +751,8 @@ function ModelsPanel({ colors: c, providers, addToast }: {
         ))}
       </div>
       <div style={{ display: 'flex', gap: 12 }}>
-        <Btn colors={c} label="查询模型" loadingLabel="查询中..." loading={loading} onClick={query} />
-        <Btn colors={c} label="可用性检查" loadingLabel="检查中..." loading={checkingModels} disabled={!key.trim()} onClick={checkModels} variant="info" />
+        <Btn colors={c} label="Query Models" loadingLabel="Querying..." loading={loading} onClick={query} />
+        <Btn colors={c} label="Availability Check" loadingLabel="Checking..." loading={checkingModels} disabled={!key.trim()} onClick={checkModels} variant="info" />
       </div>
 
       {checkingModels && (
@@ -776,7 +776,7 @@ function ModelsPanel({ colors: c, providers, addToast }: {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
               <span style={{ fontSize: 12, color: c.textTertiary }}>{result.provider}</span>
-              <span style={{ fontSize: 13, fontWeight: 600, color: c.textPrimary }}>{result.total} 个模型</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: c.textPrimary }}>{result.total} models</span>
               {result.source && (
                 <span style={{
                   fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 4,
@@ -795,7 +795,7 @@ function ModelsPanel({ colors: c, providers, addToast }: {
               ))}
               {result.models.length > 50 && (
                 <span style={{ fontSize: 11, color: c.textTertiary, padding: '4px 0' }}>
-                  ... 还有 {result.models.length - 50} 个
+                  ... and {result.models.length - 50} more
                 </span>
               )}
             </div>
@@ -809,7 +809,7 @@ function ModelsPanel({ colors: c, providers, addToast }: {
             padding: 14, borderRadius: 8,
             background: `${c.info}0A`, border: `1px solid ${c.info}33`,
           }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: c.info, marginBottom: 8 }}>模型能力</div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: c.info, marginBottom: 8 }}>Model Capabilities</div>
             <div style={{ maxHeight: 200, overflow: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
               {Object.entries(capabilities).slice(0, 30).map(([model, cap]) => (
                 <div key={model} style={{
@@ -819,9 +819,9 @@ function ModelsPanel({ colors: c, providers, addToast }: {
                 }}>
                   <span style={{ fontFamily: 'Consolas', color: c.textSecondary, flex: 1 }}>{model}</span>
                   <div style={{ display: 'flex', gap: 4 }}>
-                    {cap.vision && <span style={{ padding: '1px 5px', borderRadius: 3, background: `${c.primary}1A`, color: c.primary, fontSize: 10 }}>视觉</span>}
-                    {cap.tool_use && <span style={{ padding: '1px 5px', borderRadius: 3, background: `${c.success}1A`, color: c.success, fontSize: 10 }}>工具</span>}
-                    {cap.reasoning && <span style={{ padding: '1px 5px', borderRadius: 3, background: `${c.warning}1A`, color: c.warning, fontSize: 10 }}>推理</span>}
+                    {cap.vision && <span style={{ padding: '1px 5px', borderRadius: 3, background: `${c.primary}1A`, color: c.primary, fontSize: 10 }}>Vision</span>}
+                    {cap.tool_use && <span style={{ padding: '1px 5px', borderRadius: 3, background: `${c.success}1A`, color: c.success, fontSize: 10 }}>Tool</span>}
+                    {cap.reasoning && <span style={{ padding: '1px 5px', borderRadius: 3, background: `${c.warning}1A`, color: c.warning, fontSize: 10 }}>Reasoning</span>
                     {cap.max_tokens && <span style={{ padding: '1px 5px', borderRadius: 3, background: `${c.textTertiary}1A`, color: c.textTertiary, fontSize: 10 }}>{cap.max_tokens} tok</span>}
                   </div>
                 </div>
@@ -839,7 +839,7 @@ function ModelsPanel({ colors: c, providers, addToast }: {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
               <Check size={16} color={c.success} />
-              <span style={{ fontSize: 13, fontWeight: 600, color: c.success }}>可用模型: {availableModels.length} 个</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: c.success }}>Available Models: {availableModels.length}</span>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {availableModels.map(m => (
@@ -875,17 +875,17 @@ function SingleKeyToolsPanel({ colors: c, providers, addToast }: {
       const r = await api.testSingle(key.trim(), provider || undefined);
       setTestResult(r);
     } catch (e: any) {
-      addToast('error', '测试失败', e.message);
+      addToast('error', 'Test failed', e.message);
     } finally { setLoading(null); }
   };
 
   const queryBalance = async () => {
     if (!key.trim()) {
-      addToast('error', '请输入 API Key');
+      addToast('error', 'Please enter an API Key');
       return;
     }
     if (!provider) {
-      addToast('error', '请选择服务商', '余额查询需要指定服务商');
+      addToast('error', 'Please select a provider', 'Balance query requires a provider');
       return;
     }
     setLoading('balance'); setBalanceResult(null);
@@ -893,7 +893,7 @@ function SingleKeyToolsPanel({ colors: c, providers, addToast }: {
       const r = await api.queryBalance(key.trim(), provider);
       setBalanceResult(r);
     } catch (e: any) {
-      addToast('error', '余额查询失败', e.message);
+      addToast('error', 'Balance query failed', e.message);
     } finally { setLoading(null); }
   };
 
@@ -901,21 +901,21 @@ function SingleKeyToolsPanel({ colors: c, providers, addToast }: {
     setLoading('testAll');
     try {
       await api.testAll();
-      addToast('success', '全量测试已启动', '后台正在对所有有效密钥进行测试');
+      addToast('success', 'Full test started', 'Running tests on all valid keys in background');
     } catch (e: any) {
-      addToast('error', '全量测试失败', e.message);
+      addToast('error', 'Full test failed', e.message);
     } finally { setLoading(null); }
   };
 
   return (
-    <Panel colors={c} icon={<Wrench size={16} />} title="单键工具">
+    <Panel colors={c} icon={<Wrench size={16} />} title="Single Key Tools">
       <div style={{ display: 'flex', gap: 12 }}>
         <div style={{ flex: 1 }}>
           <Input
             colors={c}
             value={key}
             onChange={e => setKey(e.target.value)}
-            placeholder="输入 API Key"
+            placeholder="Enter API Key"
             prefixIcon={<KeyRound size={15} />}
             mono
           />
@@ -923,9 +923,9 @@ function SingleKeyToolsPanel({ colors: c, providers, addToast }: {
         <ProviderDropdown colors={c} providers={providers} value={provider} onChange={setProvider} />
       </div>
       <div style={{ display: 'flex', gap: 12, marginTop: 14 }}>
-        <Btn colors={c} label="测试 Token 限制" loadingLabel="测试中..." loading={loading === 'test'} disabled={!key.trim()} onClick={testToken} />
-        <Btn colors={c} label="查询余额" loadingLabel="查询中..." loading={loading === 'balance'} disabled={!key.trim() || !provider} onClick={queryBalance} variant="info" />
-        <Btn colors={c} label="全量测试" loadingLabel="启动中..." loading={loading === 'testAll'} onClick={testAll} icon={<ListChecks size={15} />} />
+        <Btn colors={c} label="Test Token Limit" loadingLabel="Testing..." loading={loading === 'test'} disabled={!key.trim()} onClick={testToken} />
+        <Btn colors={c} label="Query Balance" loadingLabel="Querying..." loading={loading === 'balance'} disabled={!key.trim() || !provider} onClick={queryBalance} variant="info" />
+        <Btn colors={c} label="Full Test" loadingLabel="Starting..." loading={loading === 'testAll'} onClick={testAll} icon={<ListChecks size={15} />} />
       </div>
 
       {testResult && (
@@ -942,16 +942,16 @@ function SingleKeyToolsPanel({ colors: c, providers, addToast }: {
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
                 <div style={{ padding: '6px 10px', borderRadius: 6, background: `${c.info}1A` }}>
-                  <span style={{ fontSize: 11, color: c.textTertiary }}>Token 限制</span>
+                  <span style={{ fontSize: 11, color: c.textTertiary }}>Token Limit</span>
                   <span style={{ fontSize: 15, fontWeight: 700, color: c.info, marginLeft: 6 }}>{testResult.max_tokens ?? '-'}</span>
                 </div>
                 <div style={{ padding: '6px 10px', borderRadius: 6, background: `${c.secondary}1A` }}>
-                  <span style={{ fontSize: 11, color: c.textTertiary }}>并发数</span>
+                  <span style={{ fontSize: 11, color: c.textTertiary }}>Concurrency</span>
                   <span style={{ fontSize: 15, fontWeight: 700, color: c.secondary, marginLeft: 6 }}>{testResult.max_concurrency ?? '-'}</span>
                 </div>
               </div>
               {testResult.models && testResult.models.length > 0 && (
-                <div style={{ marginTop: 8, fontSize: 11, color: c.textTertiary }}>模型: {testResult.models.join(', ')}</div>
+                <div style={{ marginTop: 8, fontSize: 11, color: c.textTertiary }}>Models: {testResult.models.join(', ')}</div>
               )}
             </>
           )}
@@ -968,7 +968,7 @@ function SingleKeyToolsPanel({ colors: c, providers, addToast }: {
           ) : balanceResult.balance == null ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <AlertCircle size={20} color={c.warning} />
-              <span style={{ fontSize: 13, fontWeight: 600, color: c.warning }}>该服务商不支持查询余额</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: c.warning }}>This provider does not support balance queries</span>
             </div>
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -1002,7 +1002,7 @@ function ModelTestPanel({ colors: c, providers, addToast }: {
 
   const testToken = async () => {
     if (!key.trim() || !model.trim()) {
-      addToast('error', '请输入 API Key 和模型名称');
+      addToast('error', 'Please enter an API Key and model name');
       return;
     }
     setLoading('token'); setTokenResult(null);
@@ -1010,13 +1010,13 @@ function ModelTestPanel({ colors: c, providers, addToast }: {
       const r = await api.testTokenModel(key.trim(), model.trim(), provider || undefined);
       setTokenResult(r);
     } catch (e: any) {
-      addToast('error', 'Token 测试失败', e.message);
+      addToast('error', 'Token test failed', e.message);
     } finally { setLoading(null); }
   };
 
   const testConcurrency = async () => {
     if (!key.trim() || !model.trim()) {
-      addToast('error', '请输入 API Key 和模型名称');
+      addToast('error', 'Please enter an API Key and model name');
       return;
     }
     setLoading('concurrency'); setConcurrencyResult(null);
@@ -1027,12 +1027,12 @@ function ModelTestPanel({ colors: c, providers, addToast }: {
       );
       setConcurrencyResult(r);
     } catch (e: any) {
-      addToast('error', '并发测试失败', e.message);
+      addToast('error', 'Concurrency test failed', e.message);
     } finally { setLoading(null); }
   };
 
   return (
-    <Panel colors={c} icon={<Bot size={16} />} title="模型级测试">
+    <Panel colors={c} icon={<Bot size={16} />} title="Model-Level Test">
       <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
         <div style={{ flex: 1 }}>
           <Input
@@ -1052,7 +1052,7 @@ function ModelTestPanel({ colors: c, providers, addToast }: {
             colors={c}
             value={model}
             onChange={e => setModel(e.target.value)}
-            placeholder="模型名称 (如 gpt-4o, claude-3-opus)"
+            placeholder="Model name (e.g. gpt-4o, claude-3-opus)"
           />
         </div>
         <div style={{ flex: 1 }}>
@@ -1060,7 +1060,7 @@ function ModelTestPanel({ colors: c, providers, addToast }: {
             colors={c}
             value={concurrency}
             onChange={e => setConcurrency(e.target.value)}
-            placeholder="并发数"
+            placeholder="Concurrency"
             type="number"
           />
         </div>
@@ -1068,16 +1068,16 @@ function ModelTestPanel({ colors: c, providers, addToast }: {
       <div style={{ display: 'flex', gap: 12 }}>
         <Btn
           colors={c}
-          label="测试 Token 限制"
-          loadingLabel="测试中..."
+          label="Test Token Limit"
+          loadingLabel="Testing..."
           loading={loading === 'token'}
           disabled={!key.trim() || !model.trim()}
           onClick={testToken}
         />
         <Btn
           colors={c}
-          label="测试并发"
-          loadingLabel="测试中..."
+          label="Test Concurrency"
+          loadingLabel="Testing..."
           loading={loading === 'concurrency'}
           disabled={!key.trim() || !model.trim()}
           onClick={testConcurrency}
@@ -1102,7 +1102,7 @@ function ModelTestPanel({ colors: c, providers, addToast }: {
                 <div>
                   <div style={{ fontSize: 11, color: c.textTertiary }}>{tokenResult.provider} / {tokenResult.model}</div>
                   <div style={{ padding: '6px 10px', borderRadius: 6, background: `${c.info}1A`, marginTop: 6, display: 'inline-block' }}>
-                    <span style={{ fontSize: 11, color: c.textTertiary }}>最大 Token</span>
+                    <span style={{ fontSize: 11, color: c.textTertiary }}>Max Tokens</span>
                     <span style={{ fontSize: 15, fontWeight: 700, color: c.info, marginLeft: 6 }}>{tokenResult.max_tokens ?? '-'}</span>
                   </div>
                 </div>
@@ -1129,7 +1129,7 @@ function ModelTestPanel({ colors: c, providers, addToast }: {
                 <div>
                   <div style={{ fontSize: 11, color: c.textTertiary }}>{concurrencyResult.provider} / {concurrencyResult.model}</div>
                   <div style={{ padding: '6px 10px', borderRadius: 6, background: `${c.secondary}1A`, marginTop: 6, display: 'inline-block' }}>
-                    <span style={{ fontSize: 11, color: c.textTertiary }}>最大并发</span>
+                    <span style={{ fontSize: 11, color: c.textTertiary }}>Max Concurrency</span>
                     <span style={{ fontSize: 15, fontWeight: 700, color: c.secondary, marginLeft: 6 }}>{concurrencyResult.max_concurrency ?? '-'}</span>
                   </div>
                 </div>
@@ -1157,7 +1157,7 @@ function SignatureReportPanel({ colors: c, addToast }: {
       const r = await api.getSignatureReport();
       setReport(r);
     } catch (e: any) {
-      addToast('error', '签名报告生成失败', e.message);
+      addToast('error', 'Signature report generation failed', e.message);
     } finally { setLoading(false); }
   };
 
@@ -1177,14 +1177,14 @@ function SignatureReportPanel({ colors: c, addToast }: {
   };
 
   return (
-    <Panel colors={c} icon={<ShieldCheck size={16} />} title="签名验证报告">
+    <Panel colors={c} icon={<ShieldCheck size={16} />} title="Signature Verification Report">
       <div style={{ fontSize: 12, color: c.textTertiary, marginBottom: 14 }}>
-        测试每个服务商的错误签名识别能力，用于验证密钥检测的准确性
+        Tests each provider's error signature recognition to validate key detection accuracy
       </div>
       <Btn
         colors={c}
-        label="生成报告"
-        loadingLabel="正在测试所有服务商..."
+        label="Generate Report"
+        loadingLabel="Testing all providers..."
         loading={loading}
         onClick={runReport}
       />
@@ -1202,15 +1202,15 @@ function SignatureReportPanel({ colors: c, addToast }: {
             background: c.surfaceLow, border: `1px solid ${c.borderSubtle}`,
             marginBottom: 12,
           }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: c.textPrimary, marginBottom: 10 }}>摘要</div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: c.textPrimary, marginBottom: 10 }}>Summary</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
               {[
-                { label: '服务商', val: report.summary.total_providers, color: c.info },
-                { label: '完全匹配', val: report.summary.full_match, color: c.success },
-                { label: '部分匹配', val: report.summary.partial_match, color: c.warning },
-                { label: '未匹配', val: report.summary.no_match, color: c.error },
-                { label: '有冲突', val: report.summary.has_conflicts, color: c.warning },
-                { label: '新签名', val: report.summary.has_new_signatures, color: c.info },
+                { label: 'Providers', val: report.summary.total_providers, color: c.info },
+                { label: 'Full Match', val: report.summary.full_match, color: c.success },
+                { label: 'Partial Match', val: report.summary.partial_match, color: c.warning },
+                { label: 'No Match', val: report.summary.no_match, color: c.error },
+                { label: 'Conflicts', val: report.summary.has_conflicts, color: c.warning },
+                { label: 'New Signatures', val: report.summary.has_new_signatures, color: c.info },
               ].map(s => (
                 <div key={s.label} style={{ padding: '6px 10px', borderRadius: 6, background: `${s.color}1A` }}>
                   <span style={{ fontSize: 11, color: c.textTertiary }}>{s.label}</span>
@@ -1254,13 +1254,13 @@ function SignatureReportPanel({ colors: c, addToast }: {
                       <span style={{
                         fontSize: 10, fontWeight: 600, padding: '2px 6px', borderRadius: 4,
                         background: `${c.info}1F`, color: c.info,
-                      }}>+{r.new_signatures.length} 新</span>
+                      }}>+{r.new_signatures.length} New</span>
                     )}
                     {r.conflicts && r.conflicts.length > 0 && (
                       <span style={{
                         fontSize: 10, fontWeight: 600, padding: '2px 6px', borderRadius: 4,
                         background: `${c.warning}1F`, color: c.warning,
-                      }}>冲突</span>
+                      }}>Conflict</span>
                     )}
                   </div>
 
@@ -1273,33 +1273,33 @@ function SignatureReportPanel({ colors: c, addToast }: {
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 11 }}>
                         {r.unique_signatures.matched.length > 0 && (
                           <div>
-                            <span style={{ color: c.success, fontWeight: 600 }}>已匹配: </span>
+                            <span style={{ color: c.success, fontWeight: 600 }}>Matched: </span>
                             <span style={{ color: c.textSecondary }}>{r.unique_signatures.matched.join(', ')}</span>
                           </div>
                         )}
                         {r.unique_signatures.missing.length > 0 && (
                           <div>
-                            <span style={{ color: c.error, fontWeight: 600 }}>缺失: </span>
+                            <span style={{ color: c.error, fontWeight: 600 }}>Missing: </span>
                             <span style={{ color: c.textSecondary }}>{r.unique_signatures.missing.join(', ')}</span>
                           </div>
                         )}
                         {r.new_signatures && r.new_signatures.length > 0 && (
                           <div>
-                            <span style={{ color: c.info, fontWeight: 600 }}>新发现: </span>
+                            <span style={{ color: c.info, fontWeight: 600 }}>Newly Found: </span>
                             <span style={{ color: c.textSecondary }}>{r.new_signatures.join(', ')}</span>
                           </div>
                         )}
                         {r.conflicts && r.conflicts.length > 0 && (
                           <div>
-                            <span style={{ color: c.warning, fontWeight: 600 }}>冲突: </span>
+                            <span style={{ color: c.warning, fontWeight: 600 }}>Conflict: </span>
                             <span style={{ color: c.textSecondary }}>
-                              {r.conflicts.map(co => `"${co.signature}" 与 ${co.other_provider}`).join('; ')}
+                              {r.conflicts.map(co => `"${co.signature}" conflicts with ${co.other_provider}`).join('; ')}
                             </span>
                           </div>
                         )}
                         {r.error && (
                           <div>
-                            <span style={{ color: c.error, fontWeight: 600 }}>错误: </span>
+                            <span style={{ color: c.error, fontWeight: 600 }}>Error: </span>
                             <span style={{ color: c.textSecondary }}>{r.error}</span>
                           </div>
                         )}
@@ -1372,14 +1372,14 @@ function WebhookPanel({ colors: c, addToast }: {
   const validateAndSubmit = async () => {
     const errs: typeof errors = {};
     if (!url.trim()) {
-      errs.url = '请输入 URL';
+      errs.url = 'Please enter a URL';
     } else {
       try { new URL(url.trim()); }
-      catch { errs.url = 'URL 格式不正确，如 https://example.com/webhook'; }
+      catch { errs.url = 'URL format is incorrect, e.g. https://example.com/webhook'; }
     }
     const retries = parseInt(maxRetries);
     if (maxRetries && (isNaN(retries) || retries < 0 || retries > 10)) {
-      errs.maxRetries = '请输入 0-10 之间的数字';
+      errs.maxRetries = 'Please enter a number between 0-10';
     }
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
@@ -1393,10 +1393,10 @@ function WebhookPanel({ colors: c, addToast }: {
       };
       if (dialogMode === 'edit' && editingId) {
         await api.updateWebhook(editingId, body);
-        addToast('success', 'Webhook 更新成功');
+        addToast('success', 'Webhook updated successfully');
       } else {
         await api.createWebhook(body);
-        addToast('success', 'Webhook 创建成功');
+        addToast('success', 'Webhook created successfully');
       }
       closeDialog();
       load();
@@ -1412,7 +1412,7 @@ function WebhookPanel({ colors: c, addToast }: {
       setDeliveries(d);
       setShowDeliveries(true);
     } catch (e: any) {
-      addToast('error', '加载投递日志失败', e.message);
+      addToast('error', 'Failed to load delivery logs', e.message);
     } finally { setLoadingDeliveries(false); }
   };
 
@@ -1420,19 +1420,19 @@ function WebhookPanel({ colors: c, addToast }: {
     try {
       await api.clearWebhookDeliveries();
       setDeliveries([]);
-      addToast('success', '投递日志已清空');
+      addToast('success', 'Delivery logs cleared');
     } catch (e: any) {
-      addToast('error', '清空失败', e.message);
+      addToast('error', 'Clear failed', e.message);
     }
   };
 
   const remove = async (id: string) => {
     try { await api.deleteWebhook(id); load(); }
-    catch (e: any) { addToast('error', '删除失败', e.message); }
+    catch (e: any) { addToast('error', 'Delete failed', e.message); }
   };
 
   return (
-    <Panel colors={c} icon={<Webhook size={16} />} title="Webhook 管理">
+    <Panel colors={c} icon={<Webhook size={16} />} title="Webhook Management">
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginBottom: 16 }}>
         <HoverPress>
           <motion.button
@@ -1448,7 +1448,7 @@ function WebhookPanel({ colors: c, addToast }: {
             }}
           >
             <History size={14} />
-            投递日志
+            Delivery Logs
           </motion.button>
         </HoverPress>
         <HoverPress>
@@ -1464,7 +1464,7 @@ function WebhookPanel({ colors: c, addToast }: {
             }}
           >
             <Plus size={14} />
-            新建
+            New
           </motion.button>
         </HoverPress>
       </div>
@@ -1475,7 +1475,7 @@ function WebhookPanel({ colors: c, addToast }: {
         </div>
       ) : webhooks.length === 0 ? (
         <div style={{ padding: 16, textAlign: 'center', color: c.textTertiary, fontSize: 13 }}>
-          暂无 Webhook 配置
+          No webhook configured
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -1499,7 +1499,7 @@ function WebhookPanel({ colors: c, addToast }: {
               background: c.surfaceLow, border: `1px solid ${c.borderSubtle}`,
             }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: c.textPrimary }}>投递日志 ({deliveries.length})</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: c.textPrimary }}>Delivery Logs ({deliveries.length})</span>
                 <div style={{ display: 'flex', gap: 8 }}>
                   {deliveries.length > 0 && (
                     <motion.button
@@ -1510,7 +1510,7 @@ function WebhookPanel({ colors: c, addToast }: {
                         background: `${c.error}14`, color: c.error,
                         fontSize: 11, fontWeight: 600, cursor: 'pointer',
                       }}
-                    >清空</motion.button>
+                    >Clear</motion.button>
                   )}
                   <motion.button
                     whileTap={{ scale: 0.95 }}
@@ -1520,11 +1520,11 @@ function WebhookPanel({ colors: c, addToast }: {
                       background: 'transparent', color: c.textTertiary,
                       fontSize: 11, fontWeight: 600, cursor: 'pointer',
                     }}
-                  >收起</motion.button>
+                  >Collapse</motion.button>
                 </div>
               </div>
               {deliveries.length === 0 ? (
-                <div style={{ fontSize: 12, color: c.textTertiary, textAlign: 'center', padding: 12 }}>暂无投递记录</div>
+                <div style={{ fontSize: 12, color: c.textTertiary, textAlign: 'center', padding: 12 }}>No delivery records</div>
               ) : (
                 <div style={{ maxHeight: 200, overflow: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
                   {deliveries.slice(0, 20).map((d, i) => (
@@ -1539,7 +1539,7 @@ function WebhookPanel({ colors: c, addToast }: {
                         background: d.success ? `${c.success}1F` : `${c.error}1F`,
                         color: d.success ? c.success : c.error,
                         fontWeight: 600,
-                      }}>{d.success ? '成功' : '失败'}</span>
+                      }}>{d.success ? 'Success' : 'Failed'}</span>
                       <span style={{ color: c.textSecondary, flex: 1 }}>{d.event || '-'}</span>
                       {d.status_code && <span style={{ color: c.textTertiary }}>{d.status_code}</span>}
                       {d.error && <span style={{ color: c.error, maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={d.error}>{d.error}</span>}
@@ -1548,7 +1548,7 @@ function WebhookPanel({ colors: c, addToast }: {
                   ))}
                   {deliveries.length > 20 && (
                     <div style={{ fontSize: 11, color: c.textTertiary, padding: '4px 0', textAlign: 'center' }}>
-                      ... 还有 {deliveries.length - 20} 条
+                      ... and {deliveries.length - 20} more
                     </div>
                   )}
                 </div>
@@ -1564,7 +1564,7 @@ function WebhookPanel({ colors: c, addToast }: {
           <motion.div
             role="dialog"
             aria-modal="true"
-            aria-label={dialogMode === 'edit' ? '编辑 Webhook' : '新建 Webhook'}
+            aria-label={dialogMode === 'edit' ? 'Edit Webhook' : 'New Webhook'}
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={closeDialog}
             onKeyDown={e => e.key === 'Escape' && closeDialog()}
@@ -1587,7 +1587,7 @@ function WebhookPanel({ colors: c, addToast }: {
               }}
             >
               <div style={{ fontSize: 18, fontWeight: 700, color: c.textPrimary, marginBottom: 20 }}>
-                {dialogMode === 'edit' ? '编辑 Webhook' : '新建 Webhook'}
+                {dialogMode === 'edit' ? 'Edit Webhook' : 'New Webhook'}
               </div>
 
               <div style={{ marginBottom: 14 }}>
@@ -1604,14 +1604,14 @@ function WebhookPanel({ colors: c, addToast }: {
 
               <div style={{ marginBottom: 14 }}>
                 <label style={{ fontSize: 12, fontWeight: 500, color: c.textSecondary, display: 'block', marginBottom: 6 }}>
-                  Secret (可选)
+                  Secret (optional)
                 </label>
-                <Input colors={c} value={secret} onChange={e => setSecret(e.target.value)} placeholder="HMAC 签名密钥" />
+                <Input colors={c} value={secret} onChange={e => setSecret(e.target.value)} placeholder="HMAC signing secret" />
               </div>
 
               <div style={{ marginBottom: 14 }}>
                 <label style={{ fontSize: 12, fontWeight: 500, color: c.textSecondary, display: 'block', marginBottom: 6 }}>
-                  最大重试次数
+                  Max Retries
                 </label>
                 <Input colors={c} value={maxRetries} onChange={e => { setMaxRetries(e.target.value); setErrors(prev => ({ ...prev, maxRetries: undefined })); }} type="number" style={{ width: 100 }} />
                 {errors.maxRetries && (
@@ -1623,7 +1623,7 @@ function WebhookPanel({ colors: c, addToast }: {
 
               <div style={{ marginBottom: 24 }}>
                 <label style={{ fontSize: 12, fontWeight: 500, color: c.textSecondary, display: 'block', marginBottom: 8 }}>
-                  订阅事件 (留空=全部)
+                  Subscribe Events (empty=all)
                 </label>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                   {availableEvents.map(ev => (
@@ -1650,9 +1650,9 @@ function WebhookPanel({ colors: c, addToast }: {
                       border: 'none', background: 'transparent',
                       color: c.textTertiary, fontSize: 13, fontWeight: 600, cursor: 'pointer',
                     }}
-                  >取消</motion.button>
+                  >Cancel</motion.button>
                 </HoverPress>
-                <Btn colors={c} label={dialogMode === 'edit' ? '保存' : '创建'} loadingLabel={dialogMode === 'edit' ? '保存中...' : '创建中...'} loading={loading} disabled={!url.trim()} onClick={validateAndSubmit} />
+                <Btn colors={c} label={dialogMode === 'edit' ? 'Save' : 'Create'} loadingLabel={dialogMode === 'edit' ? 'Saving...' : 'Creating...'} loading={loading} disabled={!url.trim()} onClick={validateAndSubmit} />
               </div>
             </motion.div>
           </motion.div>
@@ -1696,7 +1696,7 @@ function WebhookItem({ colors: c, webhook: wh, index, onEdit, onDelete }: {
           {wh.url}
         </div>
         <div style={{ fontSize: 11, color: c.textTertiary, marginTop: 2 }}>
-          {wh.events.length === 0 ? '所有事件' : wh.events.join(', ')}
+          {wh.events.length === 0 ? 'All Events' : wh.events.join(', ')}
         </div>
       </div>
       <motion.button
@@ -1705,7 +1705,7 @@ function WebhookItem({ colors: c, webhook: wh, index, onEdit, onDelete }: {
         onClick={onEdit}
         onMouseEnter={() => setEditHovered(true)}
         onMouseLeave={() => setEditHovered(false)}
-        title="编辑 Webhook"
+        title="Edit Webhook"
         style={{
           width: 30, height: 30, borderRadius: 6,
           border: 'none', background: editHovered ? `${c.primary}14` : 'transparent',
@@ -1722,7 +1722,7 @@ function WebhookItem({ colors: c, webhook: wh, index, onEdit, onDelete }: {
         onClick={onDelete}
         onMouseEnter={() => setDeleteHovered(true)}
         onMouseLeave={() => setDeleteHovered(false)}
-        title="删除 Webhook"
+        title="Delete Webhook"
         style={{
           width: 30, height: 30, borderRadius: 6,
           border: 'none', background: deleteHovered ? `${c.error}14` : 'transparent',

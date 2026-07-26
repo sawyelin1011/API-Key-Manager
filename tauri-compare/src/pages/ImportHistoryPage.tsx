@@ -42,8 +42,8 @@ export function ImportHistoryPage({ colors: c, records, onReImport, onDelete, on
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 700, color: c.textPrimary, letterSpacing: -0.5, margin: 0 }}>导入历史</h1>
-            <p style={{ fontSize: 13, color: c.textTertiary, margin: '4px 0 0' }}>查看所有密钥导入记录（保留最近 7 天）</p>
+            <h1 style={{ fontSize: 22, fontWeight: 700, color: c.textPrimary, letterSpacing: -0.5, margin: 0 }}>Import History</h1>
+            <p style={{ fontSize: 13, color: c.textTertiary, margin: '4px 0 0' }}>View all key import records (kept for 7 days)</p>
           </div>
           {records.length > 0 && (
             <motion.button
@@ -59,7 +59,7 @@ export function ImportHistoryPage({ colors: c, records, onReImport, onDelete, on
               }}
             >
               <Trash2 size={16} />
-              清空导入历史
+              Clear Import History
             </motion.button>
           )}
         </div>
@@ -85,8 +85,8 @@ export function ImportHistoryPage({ colors: c, records, onReImport, onDelete, on
             }}>
               <History size={32} color={`${c.primary}80`} />
             </div>
-            <div style={{ fontSize: 14, color: c.textSecondary, fontWeight: 500 }}>暂无导入记录</div>
-            <div style={{ fontSize: 12, color: c.textTertiary, marginTop: 4 }}>导入密钥后会在这里显示记录</div>
+            <div style={{ fontSize: 14, color: c.textSecondary, fontWeight: 500 }}>No import records</div>
+            <div style={{ fontSize: 12, color: c.textTertiary, marginTop: 4 }}>Import records will appear here after importing keys</div>
           </motion.div>
         ) : (
           /* History Cards (matches Flutter _HistoryCard) */
@@ -145,13 +145,13 @@ export function ImportHistoryPage({ colors: c, records, onReImport, onDelete, on
                     <div style={{ fontSize: 18, fontWeight: 700, color: c.success }}>
                       {rec.newCount}
                     </div>
-                    <div style={{ fontSize: 10, color: c.textTertiary }}>新增</div>
+                    <div style={{ fontSize: 10, color: c.textTertiary }}>New</div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: 18, fontWeight: 700, color: c.warning }}>
                       {rec.dupeCount}
                     </div>
-                    <div style={{ fontSize: 10, color: c.textTertiary }}>重复</div>
+                    <div style={{ fontSize: 10, color: c.textTertiary }}>Duplicates</div>
                   </div>
 
                   {/* Action Buttons */}
@@ -170,7 +170,7 @@ export function ImportHistoryPage({ colors: c, records, onReImport, onDelete, on
                           cursor: 'pointer', display: 'flex',
                           alignItems: 'center', justifyContent: 'center',
                         }}
-                        title="重新导入"
+                        title="Re-import"
                       >
                         <RefreshCw size={16} />
                       </motion.button>
@@ -188,7 +188,7 @@ export function ImportHistoryPage({ colors: c, records, onReImport, onDelete, on
                         cursor: 'pointer', display: 'flex',
                         alignItems: 'center', justifyContent: 'center',
                       }}
-                      title="删除"
+                      title="Delete"
                     >
                       <X size={16} />
                     </motion.button>
@@ -205,8 +205,8 @@ export function ImportHistoryPage({ colors: c, records, onReImport, onDelete, on
         {confirmDelete !== null && (
           <ConfirmDialog
             colors={c}
-            title="删除记录"
-            desc="确定要删除这条导入记录吗？已导入的密钥不会被删除。"
+            title="Delete Record"
+            desc="Are you sure you want to delete this import record? Imported keys will not be deleted."
             onConfirm={() => { onDelete?.(confirmDelete); setConfirmDelete(null); }}
             onCancel={() => setConfirmDelete(null)}
           />
@@ -218,8 +218,8 @@ export function ImportHistoryPage({ colors: c, records, onReImport, onDelete, on
         {confirmClear && (
           <ConfirmDialog
             colors={c}
-            title="确认清空"
-            desc="确定要清空所有导入历史记录吗？已导入的密钥不会被删除。"
+            title="Clear All"
+            desc="Are you sure you want to clear all import history? Imported keys will not be deleted."
             onConfirm={() => { onClearAll?.(); setConfirmClear(false); }}
             onCancel={() => setConfirmClear(false)}
             destructive
